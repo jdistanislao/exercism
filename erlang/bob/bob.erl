@@ -20,7 +20,11 @@ get_response(S, [H|T]) ->
 are_capital_letters(S) ->
   S =:= string:to_upper(S) andalso lists:any(fun bob:is_letter/1, S).
 
-ends_with_question_mark(S) -> $? =:= lists:last(S).
+ends_with_question_mark(S) ->
+  case are_capital_letters(S) of
+    true -> false;
+    _ -> $? =:= lists:last(S)
+  end.
 
 is_empty_string(S) -> "" =:= string:strip(S).
 
