@@ -17,8 +17,13 @@ get_response(S, [H|T]) ->
     _ -> get_response(S, T)
   end.
 
-are_capital_letters(S) -> S =:= string:to_upper(S).
+are_capital_letters(S) ->
+  S =:= string:to_upper(S) andalso lists:any(fun bob:is_letter/1, S).
 
 ends_with_question_mark(S) -> $? =:= lists:last(S).
 
 is_empty_string(S) -> "" =:= string:strip(S).
+
+is_letter(L) when L >= $a andalso L =< $z -> true;
+is_letter(L) when L >= $A andalso L =< $Z -> true;
+is_letter(_) -> false.
