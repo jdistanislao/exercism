@@ -51,10 +51,8 @@ responds_to_multiple_line_questions_test() ->
                "Whatever.").
 
 %% This one is especially challenging in Erlang, hint: use the re module.
-
-%%responds_to_other_whitespace_test() ->
-%%    bob_responds("\n\r \t\v\xA0\x{2002}",
-%%                 "Fine. Be that way!").
+responds_to_other_whitespace_test() ->
+   bob_responds("\n\r \t\v\xA0\x{2002}", "Fine. Be that way!").
 
 responds_to_only_numbers_test() ->
   bob_responds("1, 2, 3", "Whatever.").

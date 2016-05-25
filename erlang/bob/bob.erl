@@ -1,11 +1,11 @@
 -module(bob).
--compile(export_all).
+-export([response_for/1]).
 
 response_for(S) ->
   Checks = [
-    {fun bob:is_empty_string/1, "Fine. Be that way!" },
-    {fun bob:ends_with_question_mark/1, "Sure." },
-    {fun bob:are_capital_letters/1, "Whoa, chill out!" }
+    {fun(S) -> says_anything(S) end, "Fine. Be that way!" },
+    {fun(S) -> is_a_question(S) end, "Sure." },
+    {fun(S) -> is_a_shout(S) end, "Whoa, chill out!" }
   ],
   get_response(S, Checks).
 
@@ -17,17 +17,20 @@ get_response(S, [H|T]) ->
     _ -> get_response(S, T)
   end.
 
-are_capital_letters(S) ->
-  S =:= string:to_upper(S) andalso lists:any(fun bob:is_letter/1, S).
+is_a_shout(S) ->
+  S =:= string:to_upper(S) andalso lists:any(fun(L) -> is_letter(L) end, S).
 
-ends_with_question_mark(S) ->
-  case are_capital_letters(S) of
+is_a_question(S) ->
+  case is_a_shout(S) of
     true -> false;
     _ -> $? =:= lists:last(S)
   end.
 
-is_empty_string(S) -> "" =:= string:strip(S).
+says_anything(S) -> "" =:= string:strip(S).
 
 is_letter(L) when L >= $a andalso L =< $z -> true;
 is_letter(L) when L >= $A andalso L =< $Z -> true;
 is_letter(_) -> false.
+
+
+%% "\n\r \t\v\xA0\x{2002}", "Fine. Be that way!"
